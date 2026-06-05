@@ -8,9 +8,11 @@
 <!-- O que é o jogo -->
 <!-- Com o que (linguagem) foi construído -->
 <!-- Por que foi criado -->
-<img src="logo_neuron.png" alt="Logo da Neuron" width="33%">
+<img src="logo_neuron.png" alt="Logo da Neuron" width="42%">
 
-**Neuron** é um jogo de enigmas em tabuleiro físico controlado por sensor de voz, permitindo-lhe ser jogado por pessoas com deficiências motoras graves. Sua criação foi motivada por um projeto de primeiro período da faculdade CESAR School, o qual gerou forte interesse em nossa equipe de desenvolver algo único e acessível. Seu funcionamento é baseado em programação em C++ associada ao Arduino Mega, sensor de voz Vosk Model desenvolvido em Python, ambos conectados por meio da biblioteca PySerial, e o site com os enigmas do jogo desenvolvido em HTML, CSS e JavaScript.
+__NEURON__ é um jogo de enigmas em tabuleiro físico controlado por sensor de voz, permitindo-lhe ser jogado por pessoas com deficiências motoras graves. 
+
+A dinâmica do jogo representa o processamento de ideias e memórias em um cérebro confuso. O tabuleiro é o mapa dessa mente em confusão, onde você assume o papel de um pulso elétrico destinado a restaurar a ordem. Faça-o antes dos seus adversários, ou perca-se para sempre nas lacunas do esquecimento.
 
 ## Características
 * **Acessibilidade e Inclusão:** Controle do jogo realizado inteiramente por comandos de voz, garantindo a participação autônoma e integradora de pessoas com deficiências motoras graves.
@@ -24,7 +26,7 @@
 ## Componentes e Tecnologias
 #### Hardware (Estrutura Física e Eletrônica)
 * **Arduino Mega 2560:** Placa microcontroladora principal responsável por receber os comandos e controlar a iluminação.
-* **Componentes Eletrônicos:** 20x Pin LEDs inseridos no tabuleiro (5x Vermelhos, 5x Verdes, 5x Azuis, 5x amarelos) e fiação correspondente (jumpers e resistores).
+* **Componentes Eletrônicos:** __20x__ Pin LEDs inseridos no tabuleiro (__5x__ Vermelhos, __5x__ Verdes, __5x__ Azuis, __5x__ amarelos) e fiação correspondente (jumpers e resistores).
 * **Estrutura Física:** Tabuleiro do jogo construído e cortado em MDF.
 
 #### Software e Bibliotecas
@@ -40,9 +42,17 @@
 
 ## Instrução de instalação
 <!-- Montagem -->
+1. 
+2. 
+3. 
+4. 
 
 ## Instrução de uso
 <!-- Como jogar -->
+1. 
+2. 
+3. 
+4. 
 
-## Licença
+<!-- ## Licença -->
 <!-- Dar permissão para uso comercial ou educacional somente -->
