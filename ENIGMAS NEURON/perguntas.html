@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Enigmas — Neuron</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --azul-escuro: #0a0e1a;
+    --azul-claro:  #2a7bc8;
+    --dourado:     #c9a84c;
+    --dourado-dim: #7a6020;
+    --texto:       #e8f0ff;
+    --texto-dim:   #6a80aa;
+    --verde-resp:  #00e5a0;
+    --vermelho:    #ff4757;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Exo 2', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    background: var(--azul-escuro);
+  }
+
+  .bg-estampa {
+    position: fixed; inset: 0;
+    background-image: url('Estampa_Neuron.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.65;
+    z-index: 0;
+  }
+
+  .bg-gradiente {
+    position: fixed; inset: 0;
+    background: linear-gradient(160deg,
+      rgba(10,14,26,0.92) 0%,
+      rgba(18,35,70,0.85) 50%,
+      rgba(10,20,45,0.92) 100%);
+    z-index: 1;
+  }
+
+  .wrapper {
+    position: relative; z-index: 10;
+    width: 100%; max-width: 900px;
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .logo {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.5em;
+    color: var(--dourado);
+    opacity: 0.8;
+  }
+
+  .contador {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem; letter-spacing: 0.3em;
+    color: var(--texto-dim);
+    margin-top: -20px;
+  }
+  .contador span { color: var(--azul-claro); font-weight: 700; }
+
+  .card { width: 100%; position: relative; }
+
+  .card::before, .card::after {
+    content: ''; position: absolute;
+    width: 32px; height: 32px;
+    border-color: var(--dourado); border-style: solid; opacity: 0.5;
+  }
+  .card::before { top: -6px; left: -6px; border-width: 2px 0 0 2px; }
+  .card::after  { bottom: -6px; right: -6px; border-width: 0 2px 2px 0; }
+
+  .card-inner {
+    background: rgba(10,18,40,0.75);
+    border: 1px solid rgba(42,123,200,0.3);
+    backdrop-filter: blur(12px);
+    padding: 52px 64px;
+    text-align: center;
+    position: relative;
+    transition: border-color 0.4s ease, background 0.4s ease;
+  }
+
+  .card-inner::before {
+    content: ''; position: absolute;
+    top: 0; left: 10%; right: 10%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--azul-claro), transparent);
+    opacity: 0.6;
+  }
+
+  .card-inner.erro {
+    border-color: rgba(255,71,87,0.8) !important;
+    animation: shake 0.4s ease;
+  }
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20%      { transform: translateX(-8px); }
+    40%      { transform: translateX(8px); }
+    60%      { transform: translateX(-5px); }
+    80%      { transform: translateX(5px); }
+  }
+
+  .msg-erro {
+    position: absolute;
+    top: 14px; left: 50%; transform: translateX(-50%);
+    font-family: 'Orbitron', monospace;
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    color: var(--vermelho);
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .msg-erro.visivel { opacity: 1; }
+
+  .label {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.6rem; letter-spacing: 0.4em;
+    text-transform: uppercase; margin-bottom: 20px;
+  }
+  .label-enigma   { color: var(--dourado); opacity: 0.7; }
+  .label-resposta { color: var(--verde-resp); opacity: 0.7; }
+
+  .sep {
+    display: flex; align-items: center; gap: 12px;
+    margin: 0 auto 8px; width: 180px; opacity: 0.35;
+  }
+  .sep-line { flex: 1; height: 1px; }
+  .sep-enigma   .sep-line { background: var(--dourado); }
+  .sep-resposta .sep-line { background: var(--verde-resp); }
+  .sep-dot { font-size: 0.5rem; }
+  .sep-enigma   .sep-dot { color: var(--dourado); }
+  .sep-resposta .sep-dot { color: var(--verde-resp); }
+
+  .pergunta-texto {
+    font-size: 2rem; font-weight: 300; font-style: italic;
+    line-height: 1.6; color: var(--texto);
+    margin: 28px 0 8px;
+  }
+
+  .resposta-texto {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.2rem; font-weight: 700;
+    color: var(--verde-resp); margin: 24px 0 8px;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 30px rgba(0,229,160,0.4);
+  }
+
+  .card.resposta .card-inner {
+    border-color: rgba(0,229,160,0.3);
+    background: rgba(0,20,15,0.8);
+  }
+  .card.resposta .card-inner::before {
+    background: linear-gradient(90deg, transparent, var(--verde-resp), transparent);
+  }
+
+  .botoes {
+    display: flex; gap: 16px;
+    align-items: center; justify-content: center;
+  }
+
+  .btn {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 13px 28px;
+    border: 1px solid; border-radius: 2px;
+    cursor: pointer; background: transparent;
+    transition: all 0.2s ease;
+  }
+
+  .btn-nav { color: var(--texto-dim); border-color: rgba(42,123,200,0.3); }
+  .btn-nav:hover:not(:disabled) {
+    color: var(--azul-claro); border-color: var(--azul-claro);
+    background: rgba(42,123,200,0.08);
+  }
+  .btn-nav:disabled { opacity: 0.15; cursor: not-allowed; }
+
+  .btn-resposta { color: var(--verde-resp); border-color: rgba(0,229,160,0.4); padding: 13px 36px; }
+  .btn-resposta:hover { background: rgba(0,229,160,0.08); border-color: var(--verde-resp); }
+
+  .btn-pergunta { color: var(--dourado); border-color: rgba(201,168,76,0.4); padding: 13px 36px; }
+  .btn-pergunta:hover { background: rgba(201,168,76,0.08); border-color: var(--dourado); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .card.animando { animation: fadeUp 0.4s ease; }
+
+  .status {
+    position: fixed; bottom: 18px; right: 24px; z-index: 20;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .status-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--dourado-dim);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .status-dot.ok { background: var(--verde-resp); }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  .status-txt {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.5rem; letter-spacing: 0.15em;
+    color: var(--texto-dim); text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-estampa"></div>
+<div class="bg-gradiente"></div>
+
+<div class="wrapper">
+
+  <div class="logo">⬡ Neuron</div>
+  <div class="contador">Enigma <span id="num">1</span> de <span id="total">25</span></div>
+
+  <div class="card" id="card">
+    <div class="card-inner" id="card-inner">
+
+      <div class="msg-erro" id="msg-erro">✕ Resposta incorreta</div>
+
+      <div id="tela-pergunta">
+        <div class="label label-enigma">✦ Enigma ✦</div>
+        <div class="sep sep-enigma">
+          <div class="sep-line"></div><div class="sep-dot">◆</div><div class="sep-line"></div>
+        </div>
+        <p class="pergunta-texto" id="texto-pergunta">Carregando...</p>
+      </div>
+
+      <div id="tela-resposta" style="display:none;">
+        <div class="label label-resposta">✦ Resposta ✦</div>
+        <div class="sep sep-resposta">
+          <div class="sep-line"></div><div class="sep-dot">◆</div><div class="sep-line"></div>
+        </div>
+        <p class="resposta-texto" id="texto-resposta">—</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="botoes">
+    <button class="btn btn-nav" id="btn-anterior" onclick="navegar('/anterior')">← Anterior</button>
+    <button class="btn btn-resposta" id="btn-resposta" onclick="navegar('/resposta')">Mostrar Resposta</button>
+    <button class="btn btn-pergunta" id="btn-pergunta" onclick="navegar('/pergunta')" style="display:none;">Ocultar Resposta</button>
+    <button class="btn btn-nav" id="btn-proximo" onclick="navegar('/proximo')">Próximo →</button>
+  </div>
+
+</div>
+
+<div class="status">
+  <div class="status-dot" id="status-dot"></div>
+  <span class="status-txt" id="status-txt">Conectando...</span>
+</div>
+
+<script>
+  let estadoAnterior = null;
+  let feedbackContadorAnterior = -1;
+
+  async function navegar(rota) {
+    await fetch(rota);
+    await atualizar();
+  }
+
+  function mostrarErro() {
+    const cardInner = document.getElementById('card-inner');
+    const msgErro   = document.getElementById('msg-erro');
+    cardInner.classList.remove('erro');
+    msgErro.classList.remove('visivel');
+    void cardInner.offsetWidth;
+    cardInner.classList.add('erro');
+    msgErro.classList.add('visivel');
+    setTimeout(() => {
+      cardInner.classList.remove('erro');
+      msgErro.classList.remove('visivel');
+    }, 3000);
+  }
+
+  async function atualizar() {
+    try {
+      const res  = await fetch('/estado');
+      const data = await res.json();
+
+      document.getElementById('num').textContent            = data.enigma_numero;
+      document.getElementById('total').textContent          = data.total;
+      document.getElementById('texto-pergunta').textContent = data.pergunta;
+      document.getElementById('texto-resposta').textContent = data.resposta;
+
+      // Detecta novo erro pelo contador
+      if (data.feedback === 'erro' && data.feedback_contador !== feedbackContadorAnterior) {
+        feedbackContadorAnterior = data.feedback_contador;
+        mostrarErro();
+      }
+
+      // Só redesenha o card se enigma ou tela mudou
+      const chave = `${data.enigma_index}|${data.tela}`;
+      if (chave === estadoAnterior) return;
+      estadoAnterior = chave;
+
+      const card     = document.getElementById('card');
+      const telaPerg = document.getElementById('tela-pergunta');
+      const telaResp = document.getElementById('tela-resposta');
+      const btnResp  = document.getElementById('btn-resposta');
+      const btnPerg  = document.getElementById('btn-pergunta');
+      const btnAnt   = document.getElementById('btn-anterior');
+      const btnProx  = document.getElementById('btn-proximo');
+
+      card.classList.remove('animando', 'resposta');
+      void card.offsetWidth;
+
+      if (data.tela === 'resposta') {
+        telaPerg.style.display = 'none';
+        telaResp.style.display = 'block';
+        btnResp.style.display  = 'none';
+        btnPerg.style.display  = 'inline-block';
+        card.classList.add('resposta', 'animando');
+      } else {
+        telaResp.style.display = 'none';
+        telaPerg.style.display = 'block';
+        btnResp.style.display  = 'inline-block';
+        btnPerg.style.display  = 'none';
+        card.classList.add('animando');
+      }
+
+      btnAnt.disabled  = data.enigma_index === 0;
+      btnProx.disabled = data.enigma_index === data.total - 1;
+
+      document.getElementById('status-dot').className = 'status-dot ok';
+      document.getElementById('status-txt').textContent = 'Conectado';
+
+    } catch (e) {
+      document.getElementById('status-dot').className = 'status-dot';
+      document.getElementById('status-txt').textContent = 'Aguardando servidor...';
+    }
+  }
+
+  atualizar();
+  setInterval(atualizar, 300);
+</script>
+
+</body>
+</html>
