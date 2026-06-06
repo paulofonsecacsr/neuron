@@ -40,14 +40,14 @@ A dinâmica do jogo representa o processamento de ideias e memórias em um cére
 * **CSS3:** Inserido diretamente no próprio arquivo HTML, é responsável pela estilização visual da interface web, garantindo um design imersivo e atraente para o ambiente do jogo.
 * **JavaScript:** Lógica de interatividade na página web, responsável por gerir os eventos do utilizador e fazer a ponte de comunicação dinâmica com a validação em Python.
 
-## Instrução de instalação
+## Instruções de instalação
 <!-- Montagem -->
 1. 
 2. 
 3. 
 4. 
 
-## Instrução de uso
+## Instruções de uso
 <!-- Como jogar -->
 1. 
 2. 
