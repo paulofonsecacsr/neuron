@@ -1,16 +1,19 @@
 """
 PLACAR NEURON — Voz + HTML + Arduino
+Reconhecimento de voz: faster-whisper (local/offline) com VAD
+Validação de resposta: múltipla escolha A/B/C/D
 """
 
 
 import json
+import queue
 import threading
 import time
 
-
+import numpy as np
 import serial
 import sounddevice as sd
-import vosk
+from faster_whisper import WhisperModel
 from flask import Flask, jsonify, send_file, send_from_directory
 
 
@@ -19,11 +22,21 @@ from flask import Flask, jsonify, send_file, send_from_directory
 # ============================================================
 
 
-MODEL_PATH  = "vosk-model-small-pt-0.3"
-SERIAL_PORT = "COM3"
-BAUD_RATE   = 9600
-SAMPLERATE  = 16000
-FLASK_PORT  = 5000
+WHISPER_MODEL = "small"     # "small" (rápido) ou "medium" (mais preciso, exige mais CPU)
+WHISPER_DEVICE = "cpu"      # "cpu" ou "cuda" se tiver placa de vídeo NVIDIA
+COMPUTE_TYPE  = "int8"      # int8 é leve e roda bem em CPU comum
+SERIAL_PORT   = "COM7"
+BAUD_RATE     = 9600
+SAMPLERATE    = 16000
+FLASK_PORT    = 5000
+
+# Parâmetros do detector de fala (VAD caseiro por volume)
+# Com blocksize=4000, cada bloco dura ~0.25s.
+SILENCIO_LIMIAR    = 250    # abaixo disso é silêncio (menor = pega bordas fracas da fala)
+SILENCIO_BLOCOS    = 4      # nº de blocos de silêncio para encerrar a fala (~1.0s)
+MIN_BLOCOS_FALA    = 2      # ignora ruídos muito curtos
+PRE_ROLL_BLOCOS    = 3      # blocos de silêncio guardados ANTES da fala (evita cortar o início)
+BLOCKSIZE          = 4000   # tamanho do bloco de áudio (~0.25s a 16kHz)
 
 
 # ============================================================
@@ -93,11 +106,31 @@ COMANDOS_ARDUINO = {
 }
 
 
-IGNORAR = {
-    "o", "a", "os", "as", "um", "uma", "uns", "umas",
-    "de", "do", "da", "dos", "das", "em", "no", "na",
-    "por", "para", "com", "que", "e", "é", "eu", "não"
+# Mapeia muitas formas de falar cada letra para a, b, c, d.
+# As frases mais longas são testadas primeiro (mais específicas).
+# Inclui erros comuns de transcrição do whisper (ex.: "litra" no lugar de "letra").
+MAPA_LETRAS = {
+    "resposta a": "a", "alternativa a": "a", "letra a": "a", "opção a": "a", "opcao a": "a",
+    "resposta b": "b", "alternativa b": "b", "letra b": "b", "opção b": "b", "opcao b": "b",
+    "resposta c": "c", "alternativa c": "c", "letra c": "c", "opção c": "c", "opcao c": "c",
+    "resposta d": "d", "alternativa d": "d", "letra d": "d", "opção d": "d", "opcao d": "d",
+    # variações de "letra" mal transcritas
+    "litra a": "a", "lítra a": "a", "litra b": "b", "lítra b": "b",
+    "litra c": "c", "lítra c": "c", "litra d": "d", "lítra d": "d",
+    # letra pronunciada por extenso
+    "letra á": "a", "letra bê": "b", "letra cê": "c", "letra dê": "d",
+    "resposta bê": "b", "resposta cê": "c", "resposta dê": "d", "resposta á": "a",
+    "bê": "b", "cê": "c", "sê": "c", "dê": "d",
 }
+
+
+def detectar_letra(texto):
+    """Tenta extrair A, B, C ou D do texto falado. Retorna a letra minúscula ou None."""
+    t = " " + texto.lower().strip() + " "  # padding ajuda a casar " a " isolado
+    for frase in sorted(MAPA_LETRAS, key=len, reverse=True):
+        if frase in t:
+            return MAPA_LETRAS[frase]
+    return None
 
 
 # ============================================================
@@ -132,17 +165,20 @@ def processar_texto(texto):
     print(f"\n[VOZ] '{texto}'")
 
 
-    # 1) Comandos de navegação
-    for frase, acao in COMANDOS_ENIGMA.items():
+    # 1) Comandos de navegação (frases mais longas primeiro, por segurança)
+    for frase in sorted(COMANDOS_ENIGMA, key=len, reverse=True):
         if frase in texto:
             estado["feedback"] = None
-            executar_acao_enigma(acao)
+            executar_acao_enigma(COMANDOS_ENIGMA[frase])
             return
 
 
     # 2) Comandos do Arduino
-    for frase, cmd in COMANDOS_ARDUINO.items():
+    #    Testa as frases MAIS LONGAS primeiro. Sem isso, "ponto pulso vermelho"
+    #    casaria dentro de "menos ponto pulso vermelho" e enviaria +1 em vez de -1.
+    for frase in sorted(COMANDOS_ARDUINO, key=len, reverse=True):
         if frase in texto:
+            cmd = COMANDOS_ARDUINO[frase]
             if arduino and arduino.is_open:
                 arduino.write(cmd.encode())
                 print(f"[LED] Comando '{cmd}' enviado ao Arduino")
@@ -156,25 +192,29 @@ def processar_texto(texto):
         return
 
 
-    # 4) Verifica se é a resposta correta
+    # 4) Detecta a letra falada (A/B/C/D)
+    letra = detectar_letra(texto)
+    if letra is None:
+        return  # não falou uma alternativa válida; ignora
+
+
     idx_atual = estado["enigma_index"]
-    resposta_correta = ENIGMAS[idx_atual]["resposta"].lower().strip()
+    correta = ENIGMAS[idx_atual]["correta"].lower().strip()
 
 
-    if resposta_correta in texto:
-        print(f"[ACERTO] Resposta correta: '{resposta_correta}'")
+    # 5) Verifica acerto
+    if letra == correta:
+        print(f"[ACERTO] Alternativa correta: '{letra.upper()}'")
         estado["feedback"] = None
         estado["tela"] = "resposta"
         return
 
 
-    # 5) Resposta errada
-    palavras = [p for p in texto.split() if p not in IGNORAR and len(p) > 2]
-    if palavras:
-        print(f"[ERRO] Resposta errada: '{texto}'")
-        estado["feedback"] = "erro"
-        estado["feedback_contador"] = estado["feedback_contador"] + 1
-        threading.Timer(8.0, limpar_feedback).start()
+    # 6) Resposta errada
+    print(f"[ERRO] Alternativa errada: '{letra.upper()}' (correta: '{correta.upper()}')")
+    estado["feedback"] = "erro"
+    estado["feedback_contador"] = estado["feedback_contador"] + 1
+    threading.Timer(8.0, limpar_feedback).start()
 
 
 def executar_acao_enigma(acao):
@@ -230,13 +270,16 @@ def estampa():
 def get_estado():
     idx = estado["enigma_index"]
     enigma = ENIGMAS[idx]
+    correta = enigma["correta"]
     return jsonify({
         "enigma_index":      idx,
         "enigma_numero":     idx + 1,
         "total":             estado["total"],
         "tela":              estado["tela"],
         "pergunta":          enigma["pergunta"],
-        "resposta":          enigma["resposta"],
+        "alternativas":      enigma["alternativas"],
+        "correta":           correta,
+        "resposta":          enigma["alternativas"][correta],  # texto da correta (compatibilidade)
         "feedback":          estado["feedback"],
         "feedback_contador": estado["feedback_contador"],
     })
@@ -273,29 +316,87 @@ def iniciar_flask():
 
 
 # ============================================================
-#  VOSK
+#  FASTER-WHISPER (substitui o Vosk)
 # ============================================================
 
 
-def iniciar_vosk():
-    print("[VOZ] Carregando modelo...")
-    model = vosk.Model(MODEL_PATH)
-    rec   = vosk.KaldiRecognizer(model, SAMPLERATE)
+def iniciar_whisper():
+    print("[VOZ] Carregando modelo faster-whisper... (pode demorar na 1ª vez)")
+    model = WhisperModel(WHISPER_MODEL, device=WHISPER_DEVICE, compute_type=COMPUTE_TYPE)
     print("[VOZ] Pronto! Fale agora. (Ctrl+C para sair)\n")
 
 
+    fila_audio = queue.Queue()
+
+
     def callback(indata, frames, time_info, status):
-        if rec.AcceptWaveform(bytes(indata)):
-            resultado = json.loads(rec.Result())
-            texto = resultado.get("text", "").strip()
-            if texto:
-                processar_texto(texto)
+        # Joga o áudio cru numa fila; o processamento acontece fora do callback
+        fila_audio.put(bytes(indata))
 
 
-    with sd.RawInputStream(samplerate=SAMPLERATE, blocksize=8000,
+    def transcrever(audio_bytes):
+        # Converte int16 -> float32 normalizado, como o whisper espera
+        audio = np.frombuffer(audio_bytes, dtype=np.int16).astype(np.float32) / 32768.0
+        segments, _ = model.transcribe(
+            audio,
+            language="pt",
+            vad_filter=True,
+            beam_size=1,          # 1 = mais rápido; aumente para mais precisão
+            # Dica de vocabulário: enviesa o reconhecimento para os comandos do jogo
+            initial_prompt=(
+                "Comandos do jogo: resposta A, resposta B, resposta C, resposta D. "
+                "Próxima pergunta, enigma anterior, mostrar resposta. "
+                "Ponto pulso vermelho, ponto pulso verde, ponto pulso azul, ponto pulso amarelo. "
+                "Zerar vermelho, zerar verde, zerar azul, zerar amarelo, zerar tudo."
+            ),
+            condition_on_previous_text=False,  # evita arrastar contexto e inventar palavras
+        )
+        return " ".join(s.text for s in segments).strip()
+
+
+    # ---- Captura com PRE-ROLL: guarda blocos antes da fala p/ não cortar o início ----
+    from collections import deque
+
+    buffer_fala = []
+    blocos_silencio = 0
+    falando = False
+    pre_roll = deque(maxlen=PRE_ROLL_BLOCOS)   # memória curta dos últimos blocos de silêncio
+
+
+    with sd.RawInputStream(samplerate=SAMPLERATE, blocksize=BLOCKSIZE,
                            dtype="int16", channels=1, callback=callback):
         while True:
-            sd.sleep(100)
+            bloco = fila_audio.get()
+
+            # Mede o volume do bloco para detectar fala/silêncio
+            amostras = np.frombuffer(bloco, dtype=np.int16)
+            volume = np.abs(amostras).mean()
+
+            if volume >= SILENCIO_LIMIAR:
+                if not falando:
+                    # Início da fala: começa com os blocos de pre-roll (o "antes")
+                    falando = True
+                    buffer_fala = list(pre_roll)
+                buffer_fala.append(bloco)
+                blocos_silencio = 0
+            else:
+                if falando:
+                    # Continua gravando durante o silêncio curto (preserva o fim da fala)
+                    buffer_fala.append(bloco)
+                    blocos_silencio += 1
+
+                    if blocos_silencio >= SILENCIO_BLOCOS:
+                        if len(buffer_fala) >= MIN_BLOCOS_FALA:
+                            audio_completo = b"".join(buffer_fala)
+                            texto = transcrever(audio_completo)
+                            if texto:
+                                processar_texto(texto)
+                        buffer_fala = []
+                        blocos_silencio = 0
+                        falando = False
+                else:
+                    # Silêncio antes de qualquer fala: alimenta a memória de pre-roll
+                    pre_roll.append(bloco)
 
 
 # ============================================================
@@ -318,7 +419,7 @@ if __name__ == "__main__":
 
 
     try:
-        iniciar_vosk()
+        iniciar_whisper()
     except KeyboardInterrupt:
         print("\n[INFO] Encerrando.")
     finally:
