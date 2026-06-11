@@ -23,9 +23,9 @@ from flask import Flask, jsonify, send_file, send_from_directory
 
 
 WHISPER_MODEL = "small"     # "small" (rápido) ou "medium" (mais preciso, exige mais CPU)
-WHISPER_DEVICE = "cpu"      # "cpu" ou "cuda" se tiver placa de vídeo NVIDIA
+WHISPER_DEVICE = "cuda"      # "cpu" ou "cuda" se tiver placa de vídeo NVIDIA
 COMPUTE_TYPE  = "int8"      # int8 é leve e roda bem em CPU comum
-SERIAL_PORT   = "COM7"
+SERIAL_PORT   = "COM8"
 BAUD_RATE     = 9600
 SAMPLERATE    = 16000
 FLASK_PORT    = 5000
@@ -82,25 +82,25 @@ COMANDOS_ENIGMA = {
 
 COMANDOS_ARDUINO = {
     # +1 ponto
-    "ponto pulso vermelho":  'R',
-    "ponto pulso verde":     'G',
-    "ponto pulso azul":      'B',
-    "ponto pulso amarelo":   'Y',
+    "ponto vermelho":  'R',
+    "ponto verde":     'G',
+    "ponto azul":      'B',
+    "ponto amarelo":   'Y',
     # +2 pontos
-    "dois pontos pulso vermelho": 'Q',
-    "dois pontos pulso verde":    'H',
-    "dois pontos pulso azul":     'C',
-    "dois pontos pulso amarelo":  'Z',
+    "dois pontos vermelho": 'Q', "2 pontos vermelho": 'Q',
+    "dois pontos verde":    'H', "2 pontos verde":    'H',
+    "dois pontos azul":     'C', "2 pontos azul":     'C',
+    "dois pontos amarelo":  'Z', "2 pontos amarelo":  'Z',
     # -1 ponto
-    "menos ponto pulso vermelho": 'r',
-    "menos ponto pulso verde":    'g',
-    "menos ponto pulso azul":     'b',
-    "menos ponto pulso amarelo":  'y',
+    "menos ponto vermelho": 'r',
+    "menos ponto verde":    'g',
+    "menos ponto azul":     'b',
+    "menos ponto amarelo":  'y',
     # zerar time
-    "zerar pulso vermelho":  'w',
-    "zerar pulso verde":     'h',
-    "zerar pulso azul":      'c',
-    "zerar pulso amarelo":   'z',
+    "zerar vermelho":  'w',
+    "zerar verde":     'h',
+    "zerar azul":      'c',
+    "zerar amarelo":   'z',
     # zerar tudo
     "zerar tudo":            'X',
 }
