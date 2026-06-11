@@ -23,7 +23,7 @@ from flask import Flask, jsonify, send_file, send_from_directory
 
 
 WHISPER_MODEL = "small"     # "small" (rápido) ou "medium" (mais preciso, exige mais CPU)
-WHISPER_DEVICE = "cuda"      # "cpu" ou "cuda" se tiver placa de vídeo NVIDIA
+WHISPER_DEVICE = "cupu"      # "cpu" ou "cuda" se tiver placa de vídeo NVIDIA
 COMPUTE_TYPE  = "int8"      # int8 é leve e roda bem em CPU comum
 SERIAL_PORT   = "COM8"
 BAUD_RATE     = 9600
