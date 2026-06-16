@@ -152,6 +152,28 @@
     line-height: 1.6; color: var(--texto);
     margin: 28px 0 8px;
   }
+  
+  /* ESTILOS DAS ALTERNATIVAS ADICIONADOS AQUI */
+  .alternativas-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 36px;
+  }
+
+  .alternativa-item {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.75rem;
+    color: var(--azul-claro);
+    background: rgba(42, 123, 200, 0.05);
+    border: 1px solid rgba(42, 123, 200, 0.3);
+    padding: 10px 20px;
+    border-radius: 4px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
 
   .resposta-texto {
     font-family: 'Orbitron', monospace;
@@ -242,6 +264,8 @@
           <div class="sep-line"></div><div class="sep-dot">◆</div><div class="sep-line"></div>
         </div>
         <p class="pergunta-texto" id="texto-pergunta">Carregando...</p>
+        
+        <div class="alternativas-grid" id="alternativas-container"></div>
       </div>
 
       <div id="tela-resposta" style="display:none;">
@@ -301,6 +325,18 @@
       document.getElementById('total').textContent          = data.total;
       document.getElementById('texto-pergunta').textContent = data.pergunta;
       document.getElementById('texto-resposta').textContent = data.resposta;
+
+      // ATUALIZAÇÃO DAS ALTERNATIVAS NA TELA
+      const altsContainer = document.getElementById('alternativas-container');
+      altsContainer.innerHTML = ''; // Limpa as alternativas da pergunta anterior
+      if (data.alternativas && data.alternativas.length > 0) {
+        data.alternativas.forEach(alt => {
+          const div = document.createElement('div');
+          div.className = 'alternativa-item';
+          div.textContent = alt;
+          altsContainer.appendChild(div);
+        });
+      }
 
       // Detecta novo erro pelo contador
       if (data.feedback === 'erro' && data.feedback_contador !== feedbackContadorAnterior) {
