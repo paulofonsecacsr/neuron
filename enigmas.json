@@ -1,12 +1,354 @@
 [
   {
     "id": 1,
-    "pergunta": "Sou paciente, sou bondoso. Não invejo e não vanglorio. Não maltrato, não procuro por interesse, não iro facilmente e não guardo rancor. Sou puro, sou o sentimento mais elevado que o ser humano pode sentir. Sou procurado por muitos, mas verdadeiramente encontrado por poucos. Causo felicidade, e a minha falta, o oposto. Quem sou eu?",
-    "resposta": "Amor"
+    "pergunta": "Passo como um sopro, em fases, desabrocho, entre recomeços e fins, e quando acabo, não retorno. Muitos me desperdiçam procurando por um sentido, mas só me valorizam quando estou quase no fim. Sou uma vela que vai derretendo com o passar do tempo. Quem foi?",
+    "resposta": "Vida",
+    "alternativas": [
+      "Vida",
+      "Flor",
+      "Fênix",
+      "Estação"
+    ]
   },
   {
     "id": 2,
+    "pergunta": "Não tenho rosto, mas a todos encontro, sou o véu que cai quando o tempo está pronto. Não trago recomeços, apenas o fim, e seja rei ou peão, todos chegam a mim. O que sou?",
+    "resposta": "Morte",
+    "alternativas": [
+      "Morte",
+      "Futuro",
+      "Noite",
+      "Sono"
+    ]
+  },
+  {
+    "id": 3,
+    "pergunta": "Sou infinito, porém passageiro. Não existe ser vivo nem inanimado, imune a minha presença e ao meu passar, sou um compositor de destinos. Sou o que passava enquanto Sísifo empurrava eternamente uma pedra até o topo de uma colina, apenas para vê-la rolar de volta. Quem sou eu?",
+    "resposta": "Tempo",
+    "alternativas": [
+      "Tempo",
+      "Vento",
+      "Rio",
+      "Eternidade"
+    ]
+  },
+  {
+    "id": 4,
+    "pergunta": "Sou pura, mas não sou água. Tenho o olhar limpo, mas não enxergo o mal. Sou também livre de culpa, malícia e má intenção. No mais, todas as crianças me têm. Quem sou eu?",
+    "resposta": "Inocência",
+    "alternativas": [
+      "Inocência",
+      "Visão",
+      "Pureza",
+      "Lágrima"
+    ]
+  },
+  {
+    "id": 5,
+    "pergunta": "Não tenho forma, mas posso te dominar. Às vezes te faço rir, às vezes chorar. Nasço sem aviso dentro de você, mas sou possível de identificar, a interpretação de uma reação. Quem eu sou?",
+    "resposta": "Sentimento",
+    "alternativas": [
+      "Sentimento",
+      "Pensamento",
+      "Humor",
+      "Alma"
+    ]
+  },
+  {
+    "id": 6,
+    "pergunta": "Sou uma resposta fisiológica a um estímulo da tua mente. Posso ser categorizada em diversos tipos, te levando aos mais diferentes sentimentos. Quem sou eu?",
+    "resposta": "Emoção",
+    "alternativas": [
+      "Emoção",
+      "Instinto",
+      "Reflexo",
+      "Choque"
+    ]
+  },
+  {
+    "id": 7,
+    "pergunta": "Sou uma ação, e hei de que você não passe por mim, pois arrastar-se-a no chão. Covardia é a minha fraqueza, sou o ato da quebra de confiança, do ser desleal. Quem sou eu?",
+    "resposta": "Traição",
+    "alternativas": [
+      "Traição",
+      "Mentira",
+      "Rasteira",
+      "Decepção"
+    ]
+  },
+  {
+    "id": 8,
+    "pergunta": "Sou o pensamento sombrio da noite que afeta o seu sonho. Quem sou eu?",
+    "resposta": "Pesadelo",
+    "alternativas": [
+      "Pesadelo",
+      "Assombração",
+      "Insônia",
+      "Escuridão"
+    ]
+  },
+  {
+    "id": 9,
+    "pergunta": "Sou a reação humana frente ao mais incontrolável dos destinos, mas para onde tudo vai, a morte. Tenho fases, a última dela, a aceitação. Quem sou eu?",
+    "resposta": "Luto",
+    "alternativas": [
+      "Luto",
+      "Tristeza",
+      "Desespero",
+      "Adeus"
+    ]
+  },
+  {
+    "id": 10,
+    "pergunta": "Posso ser a expectativa de um futuro, um objetivo, ou o que te acompanha quando você vai dormir, uma experiência mental que todos passam por… histórias que o seu cérebro cria quando está em repouso. Quem sou eu?",
+    "resposta": "Sonho",
+    "alternativas": [
+      "Sonho",
+      "Ilusão",
+      "Cinema",
+      "Delírio"
+    ]
+  },
+  {
+    "id": 11,
+    "pergunta": "Sou a experimentação do abstrato dentro da sua mente, posso criar realidades paralelas ou ideias não reais, sou o poder da criação que vem dentro de você, sou o combustível da sua criatividade. Quem sou eu?",
+    "resposta": "Imaginação",
+    "alternativas": [
+      "Imaginação",
+      "Alucinação",
+      "Genialidade",
+      "Memória"
+    ]
+  },
+  {
+    "id": 12,
+    "pergunta": "Sou a silhueta atrás das cortinas, o caminho ocultado pela neblina, quem veste o véu que esconde a verdade e joga a lenha no fogo da curiosidade. Sou o que transcende a compreensão racional, o que alimenta todos os enigmas e as coisas inexplicáveis. Quem sou eu?",
+    "resposta": "Mistério",
+    "alternativas": [
+      "Mistério",
+      "Segredo",
+      "Magia",
+      "Medo"
+    ]
+  },
+  {
+    "id": 13,
+    "pergunta": "Sou um abraço apertado num pensamento distante. Minha palavra não tem tradução para o inglês. Apareço quando algo querido está longe, e sumo quando está perto.",
+    "resposta": "Saudade",
+    "alternativas": [
+      "Saudade",
+      "Nostalgia",
+      "Lembrança",
+      "Melancolia"
+    ]
+  },
+  {
+    "id": 14,
+    "pergunta": "Sou a inteligência que se diverte, não me prendo ao conhecimento do mundo real e penso fora da caixa. Todos me tem, mas em graus variados, minha função principal é criar. Quem sou eu?",
+    "resposta": "Criatividade",
+    "alternativas": [
+      "Criatividade",
+      "Arte",
+      "Loucura",
+      "Invenção"
+    ]
+  },
+  {
+    "id": 15,
+    "pergunta": "Sou a mistura da tristeza e da raiva, um rancor melancólico. Uma queimação emocional que te faz doente e te toma nos seus momentos mais difíceis.",
+    "resposta": "Angústia",
+    "alternativas": [
+      "Angústia",
+      "Culpa",
+      "Depressão",
+      "Pânico"
+    ]
+  },
+  {
+    "id": 16,
+    "pergunta": "O suspiro relaxado de um coração antes apertado, como se todo o peso de seus ombros desaparecesse em um instante.",
+    "resposta": "Alívio",
+    "alternativas": [
+      "Alívio",
+      "Cura",
+      "Descanso",
+      "Respiração"
+    ]
+  },
+  {
+    "id": 17,
+    "pergunta": "Sou paciente, sou bondoso. Não invejo e não vanglorio. Não maltrato, não procuro por interesse, não iro facilmente e não guardo rancor. Sou puro, sou o sentimento mais elevado do que o ser humano pode sentir. Sou procurado por muitos, mas verdadeiramente encontrado por poucos. Causo felicidade, e a minha falta, o oposto. Quem sou eu?",
+    "resposta": "Amor",
+    "alternativas": [
+      "Amor",
+      "Bondade",
+      "Paz",
+      "Empatia"
+    ]
+  },
+  {
+    "id": 18,
     "pergunta": "Sou rio, sou passageira e intensa. Sou um sentimento e posso te causar uma explosão de euforia ou dor. Alguns buscam por amor e acabam me encontrando, outros têm medo do amor e me procuram. Quem sou eu?",
-    "resposta": "Paixão"
+    "resposta": "Paixão",
+    "alternativas": [
+      "Paixão",
+      "Desejo",
+      "Obsessão",
+      "Correnteza"
+    ]
+  },
+  {
+    "id": 19,
+    "pergunta": "Quanto mais me tens, mais me queres. Prometo prazer e entrego prisão. Sei o teu nome, os teus horários e os teus limites — e ignoro todos eles. Alimento desejos que nunca ficam satisfeitos, pois quanto mais recebo, mais exijo até a última gota da sua alma, e vida, ser sugada. Quem sou eu?",
+    "resposta": "Vício",
+    "alternativas": [
+      "Vício",
+      "Ganância",
+      "Monstro",
+      "Prisão"
+    ]
+  },
+  {
+    "id": 20,
+    "pergunta": "Sou um navio ancorado no ar, uma metáfora, uma representação de algo não necessariamente verdadeiro mas que pode significar algo. Sou o conceito do que não se pode tocar. Quem sou eu?",
+    "resposta": "Abstrato",
+    "alternativas": [
+      "Abstrato",
+      "Fantasma",
+      "Invisível",
+      "Vento"
+    ]
+  },
+  {
+    "id": 21,
+    "pergunta": "Sou um estado onde o que foi ou será não importa, pois vou para onde o vento me levar. Tenho a oportunidade de agir por vontade própria, e sou considerada por muitos um valor. Quem sou eu?",
+    "resposta": "Liberdade",
+    "alternativas": [
+      "Liberdade",
+      "Anarquia",
+      "Pássaro",
+      "Destino"
+    ]
+  },
+  {
+    "id": 22,
+    "pergunta": "O ser humano é um ser social, e eu sou exatamente o sentimento gerado pela falta dessa socialidade, não me confunda com a solitude, pois eu sou negativa. Quem sou eu?",
+    "resposta": "Solidão",
+    "alternativas": [
+      "Solidão",
+      "Isolamento",
+      "Silêncio",
+      "Rejeição"
+    ]
+  },
+  {
+    "id": 23,
+    "pergunta": "Abro portas antes nunca abertas e destravo a escuridão sem temer, sou quem olha o perigo nos olhos e me aproximo de cabeça erguida. Quem sou eu?",
+    "resposta": "Coragem",
+    "alternativas": [
+      "Coragem",
+      "Audácia",
+      "Força",
+      "Heroísmo"
+    ]
+  },
+  {
+    "id": 24,
+    "pergunta": "Uma quadro pendurado na parede levemente torto, a folha de um livro que não para de se mover ao vento e a linha que se recusa a ser reta. Sou a sensação de que tudo está errado e nada dá certo.",
+    "resposta": "Frustração",
+    "alternativas": [
+      "Frustração",
+      "Agonia",
+      "Perfeccionismo",
+      "Raiva"
+    ]
+  },
+  {
+    "id": 25,
+    "pergunta": "Sou o êxtase no topo da emoção, o auge que beira com a loucura e a alegria, desproporcional e intenso, eu sobrecarrego sua mente como se fogos de artifício explodissem no seu consciente.",
+    "resposta": "Euforia",
+    "alternativas": [
+      "Euforia",
+      "Alegria",
+      "Adrenalina",
+      "Loucura"
+    ]
+  },
+  {
+    "id": 26,
+    "pergunta": "Não gosto de lembrar que eu erro também. Sou um sentimento, posso ser positivo ou negativo. Sou o espelho dos que são certos demais sobre si.",
+    "resposta": "Orgulho",
+    "alternativas": [
+      "Orgulho",
+      "Vaidade",
+      "Soberba",
+      "Ego"
+    ]
+  },
+  {
+    "id": 27,
+    "pergunta": "Te levo ao início dos tempos, ao instinto de sobrevivência do ser. Ocorro quando o seu corpo entra em um estado de alerta físico. Posso ser saudável, mas também perigosa quando sentida em excesso, pois posso me tornar um transtorno. Quem sou eu?",
+    "resposta": "Ansiedade",
+    "alternativas": [
+      "Ansiedade",
+      "Pânico",
+      "Medo",
+      "Pressa"
+    ]
+  },
+  {
+    "id": 28,
+    "pergunta": "Um dia você olha para trás e vê que eu passei escorrendo, sem que você percebesse. Posso ser motivo de orgulho ou melancolia e costumo causar nostalgia. Hoje você olha para mim mais velho, mais maduro. Sou também os rastros que você construiu durante toda a sua vida. Quem sou eu?",
+    "resposta": "Passado",
+    "alternativas": [
+      "Passado",
+      "Memória",
+      "História",
+      "Fotografia"
+    ]
+  },
+  {
+    "id": 29,
+    "pergunta": "Muitos não conseguem viver em mim, pensam somente no que passou ou no que virá. O pensar sobre mim é uma corrente terapêutica que pode levar a serenidade no olhar de quem me vê.",
+    "resposta": "Presente",
+    "alternativas": [
+      "Presente",
+      "Agora",
+      "Realidade",
+      "Meditação"
+    ]
+  },
+  {
+    "id": 30,
+    "pergunta": "Te espero ali logo em frente e não peço a tua opinião. Sou independente e imprevisível, alguns acham que me leem na mão. Não tenho tempo, nem piedade, muitos acreditam que uma força maior é quem me guia. Quem sou eu?",
+    "resposta": "Futuro",
+    "alternativas": [
+      "Futuro",
+      "Destino",
+      "Sorte",
+      "Cartomante"
+    ]
+  },
+  {
+    "id": 31,
+    "pergunta": "Sou prometida por muitos, mas cumprida por poucos. Sou a representação do que fica, mas do que fica por escolha e não por falta de opção. O meu significado mais simples é: “colocar fé em algo”. Estarei aqui todos os dias, até o fim dos tempos. Quem sou eu?",
+    "resposta": "Fidelidade",
+    "alternativas": [
+      "Fidelidade",
+      "Promessa",
+      "Devoção",
+      "Religião"
+    ]
+  },
+  {
+    "id": 32,
+    "pergunta": "Sou um sentimento profundo de conexão, de cuidado e de manutenção do que importa.",
+    "resposta": "Lealdade",
+    "alternativas": [
+      "Lealdade",
+      "Aliança",
+      "Amizade",
+      "Confiança"
+    ]
   }
 ]
