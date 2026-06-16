@@ -1,16 +1,6 @@
 [
   {
     "id": 1,
-<<<<<<< HEAD
-    "pergunta": "Sou paciente, sou bondoso. Não invejo e não vanglorio. Não maltrato, não procuro por interesse, não iro facilmente e não guardo rancor. Sou puro, sou o sentimento mais elevado que o ser humano pode sentir. Sou procurado por muitos, mas verdadeiramente encontrado por poucos. Causo felicidade, e a minha falta, o oposto. Quem sou eu?",
-    "alternativas": {
-      "a": "Amor",
-      "b": "Amizade",
-      "c": "Esperança",
-      "d": "Gratidão"
-    },
-    "correta": "a"
-=======
     "pergunta": "Passo como um sopro, em fases, desabrocho, entre recomeços e fins, e quando acabo, não retorno. Muitos me desperdiçam procurando por um sentido, mas só me valorizam quando estou quase no fim. Sou uma vela que vai derretendo com o passar do tempo. Quem foi?",
     "resposta": "Vida",
     "alternativas": [
@@ -19,7 +9,6 @@
       "Fênix",
       "Estação"
     ]
->>>>>>> c8840913555069231a9833432f2d7e2f636b7709
   },
   {
     "id": 2,
@@ -200,15 +189,6 @@
   {
     "id": 18,
     "pergunta": "Sou rio, sou passageira e intensa. Sou um sentimento e posso te causar uma explosão de euforia ou dor. Alguns buscam por amor e acabam me encontrando, outros têm medo do amor e me procuram. Quem sou eu?",
-<<<<<<< HEAD
-    "alternativas": {
-      "a": "Raiva",
-      "b": "Paixão",
-      "c": "Saudade",
-      "d": "Alegria"
-    },
-    "correta": "b"
-=======
     "resposta": "Paixão",
     "alternativas": [
       "Paixão",
@@ -370,6 +350,5 @@
       "Amizade",
       "Confiança"
     ]
->>>>>>> c8840913555069231a9833432f2d7e2f636b7709
   }
 ]
