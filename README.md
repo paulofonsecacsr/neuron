@@ -29,14 +29,14 @@ A dinâmica do jogo representa o processamento de ideias e memórias em um cére
 
 
 ## Componentes e Tecnologias
-#### Hardware (Estrutura Física e Eletrônica)
+### Hardware (Estrutura Física e Eletrônica)
 * **Arduino Mega 2560:** Placa microcontroladora principal responsável por receber os comandos e controlar a iluminação.
 
 * **Componentes Eletrônicos:** __20x__ Pin LEDs inseridos no tabuleiro (__5x__ Vermelhos, __5x__ Verdes, __5x__ Azuis, __5x__ amarelos) e fiação correspondente (jumpers e resistores).
 
 * **Estrutura Física:** Tabuleiro do jogo construído e cortado em MDF.
 
-#### Software e Bibliotecas
+### Software e Bibliotecas
 * **Python:** Linguagem principal (back-end) utilizada para a lógica de validação dos enigmas e processamento de voz.
 
 * **Modelo Vosk:** Ferramenta de reconhecimento de voz (Speech Recognition) em Python para capturar os comandos do jogador offline.
@@ -45,7 +45,7 @@ A dinâmica do jogo representa o processamento de ideias e memórias em um cére
 
 * **C++ (Arduino IDE):** Linguagem utilizada para programar o Arduino Mega, interpretando os dados recebidos via porta serial e acionando os pinos dos LEDs correspondentes.
 
-#### Interface Gráfica (Front-end)
+### Interface Gráfica (Front-end)
 * **HTML5:** Estrutura base da interface gráfica aberta no navegador do computador, onde os enigmas são apresentados aos jogadores.
 
 * **CSS3:** Inserido diretamente no próprio arquivo HTML, é responsável pela estilização visual da interface web, garantindo um design imersivo e atraente para o ambiente do jogo.
@@ -72,9 +72,51 @@ A dinâmica do jogo representa o processamento de ideias e memórias em um cére
 ## Instruções de uso
 <!-- Como jogar -->
 
-* O jogo iniciará com o piscar de todas as LEDs para sinalizar seu funcionamento. Encerrado isso, uma das LEDs acenderá por um curto intervalo de tempo para indicar o jogador que será o __Host__. O __Host__ é o jogador responsável por dar os comandos do jogo, como __"Acender LED vermelho"__ quando o jogador correspondente acertar a resposta de um enigma.
+* O jogo iniciará com o piscar de todas as LEDs para sinalizar seu funcionamento. Encerrado isso, uma das fileiras de LEDs (de uma das cores) acenderá por um curto intervalo de tempo para indicar o jogador que será o __Host__. O __Host__ é o jogador responsável por dar os comandos do jogo, como __"Acender LED vermelho"__ quando o jogador correspondente acertar a resposta de um enigma.
 
 * De tempos em tempos, um som vai ser emitido do jogo, que pode sonar de forma __contínua__ ou __intervalada__. Para o primeiro caso (som contínuo), __qualquer jogador pode responder o enigma que estiver na tela__, mesmo que não seja sua rodada. Para o segundo caso (som intervalado), a partir da próxima rodada o jogo __inverterá seu sentido__ (considere que a ordem dos jogadores deve começar no sentido horário)
 
+* ### Comandos de voz
+    #### Comandos de tela
+    * Ir para o próximo enigma:
+        * "Próxima pergunta"
+        * "Próximo enigma"
+        * "Próximo enigma"
+        * "Seguinte"
+    
+    * Voltar para o enigma anterior:
+        * "Voltar"
+        * "Enigma anterior"
+
+    * Revelar resposta para o enigma:
+        * "Mostrar resposta"
+        * "Revelar resposta"
+
+    * Mostrar pergunta:
+        * "Mostrar pergunta"
+
+    #### Comandos do tabuleiro
+    * Acender LED vermelho:
+        * "Ponto vermelho"
+        * "Dois pontos vermelhos"
+
+    * Acender LED verde:
+        * "Ponto verde"
+        * "Dois pontos verdes"
+
+    * Acender LED azul:
+        * "Ponto azul"
+        * "Dois pontos azuis"
+
+    * Acender LED amarelo:
+        * "Ponto amarelo"
+        * "Dois pontos amarelos"
+
+    * Apagar LED (unidade)
+        * "Menos ponto [cor]
+
+    * Apagar LED (conjunto)
+        * Zerar [cor] - Apaga todas as LEDs da cor escolhida
+        * Zerar tudo - Apaga todas as LEDs
 <!-- ## Licença -->
 <!-- Dar permissão para uso comercial ou educacional somente -->
