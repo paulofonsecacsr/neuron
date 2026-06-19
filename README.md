@@ -1,5 +1,13 @@
+<!-- EXEMPLOS PARA REFERÊNCIA -->
+<!-- https://github.com/bearbob/pyle -->
+
+<!-- # Título -->
 # _NEURON_
 
+<!-- ## Descrição -->
+<!-- O que é o jogo -->
+<!-- Com o que (linguagem) foi construído -->
+<!-- Por que foi criado -->
 <img src="logo_neuron.png" alt="Logo da Neuron" width="42%">
 
 ___NEURON___ é um jogo de enigmas em tabuleiro físico controlado por sensor de voz, permitindo-lhe ser jogado por pessoas com deficiências motoras graves. 
@@ -69,7 +77,7 @@ A dinâmica do jogo representa o processamento de ideias e memórias em um cére
 * De tempos em tempos, um som vai ser emitido do jogo, que pode sonar de forma __contínua__ ou __intervalada__. Para o primeiro caso (som contínuo), __qualquer jogador pode responder o enigma que estiver na tela__, mesmo que não seja sua rodada. Para o segundo caso (som intervalado), a partir da próxima rodada o jogo __inverterá seu sentido__ (considere que a ordem dos jogadores deve começar no sentido horário)
 
 ### Comandos de voz
-#### &emsp;Comandos de tela
+#### &emsp;__Comandos de tela__
 * Ir para o próximo enigma:
     * "Próxima pergunta"
     * "Próximo enigma"
@@ -87,7 +95,7 @@ A dinâmica do jogo representa o processamento de ideias e memórias em um cére
 * Mostrar pergunta:
     * "Mostrar pergunta"
 
-#### &emsp;Comandos do tabuleiro
+#### &emsp;__Comandos do tabuleiro__
 * Acender LED (unidade):
     * "Ponto [cor]"
     * "Dois pontos [cor]"
@@ -98,3 +106,7 @@ A dinâmica do jogo representa o processamento de ideias e memórias em um cére
 * Apagar LED (conjunto)
     * "Zerar [cor]" - Apaga todas as LEDs da cor escolhida
     * "Zerar tudo" - Apaga todas as LEDs
+
+
+<!-- ## Licença -->
+<!-- Dar permissão para uso comercial ou educacional somente -->
